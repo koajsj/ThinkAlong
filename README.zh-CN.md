@@ -6,6 +6,7 @@
 
 ![许可证：MIT](https://img.shields.io/badge/license-MIT-blue.svg)
 ![格式：Agent Skills](https://img.shields.io/badge/format-Agent%20Skills-6f42c1.svg)
+![CI 状态](https://github.com/koajsj/ThinkAlong/actions/workflows/validate.yml/badge.svg)
 
 ThinkAlong 是一套轻量、可移植的 AI 协作流程，帮助普通人不必学习复杂的提示词技巧，也能更高效地获得有用结果。它引导 AI 理解目标、只询问关键问题、在能力允许时完成实际工作，并检查最终成果。
 
