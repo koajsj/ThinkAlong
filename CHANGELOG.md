@@ -1,19 +1,24 @@
 # Changelog
 
-## 0.3.0 — 2026-10-18
+## 0.4.0 — 2026-10-18
 
-- Established `skills/think-along/` as the canonical portable Agent Skill source.
-- Added platform guidance for Codex, Claude, ChatGPT Skills, DeepSeek-powered hosts, and portable chat instructions.
-- Separated task-quality evaluation from trigger-accuracy evaluation.
-- Added a YAML-aware validator, regression tests, ZIP packager, and GitHub Actions workflow.
-- Rewrote English and Simplified Chinese READMEs.
-- No measured model-behavior improvement is claimed; live evaluations remain a separate step.
+- Added an outcome contract, uncertainty triage, cross-turn constraint ledger, evidence gate, and root-cause repair loop.
+- Added deliverable-specific acceptance checks and worked examples.
+- Expanded task-quality and trigger evaluation plans to 30 cases each and added a consistent scoring rubric.
+- Strengthened metadata validation, exact case checks, package-content checks, and validator regression tests.
+- Kept repository documentation and test tooling outside the installable Skill ZIP.
+- Improved English/Chinese README content and clarified platform limitations.
+- No live model-behavior improvement is claimed; controlled evaluations remain pending.
+
+## 0.3.0
+
+- Established the canonical portable Agent Skill source.
+- Added platform guidance, portable instructions, task and trigger evaluation plans, validator tests, packaging, and CI.
 
 ## 0.2.0
 
 - Tightened adaptive behavior, output-format fidelity, context reuse, and repair guidance.
-- Expanded manual task evaluation cases.
 
 ## 0.1.0
 
-- Initial prototype with adaptive clarification, execution, verification, and manual evaluation cases.
+- Initial prototype for adaptive clarification, execution, verification, and manual evaluation.

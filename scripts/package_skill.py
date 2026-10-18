@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate and package only runtime Skill files."""
+"""Validate and package only the runtime ThinkAlong Skill files."""
 from __future__ import annotations
 
 import subprocess
@@ -15,11 +15,17 @@ FILES = [
     ("LICENSE", ROOT / "LICENSE"),
     ("agents/openai.yaml", SOURCE / "agents" / "openai.yaml"),
     ("references/workflow.md", SOURCE / "references" / "workflow.md"),
+    ("references/acceptance-checks.md", SOURCE / "references" / "acceptance-checks.md"),
+    ("references/examples.md", SOURCE / "references" / "examples.md"),
 ]
 
 
 def main() -> int:
-    result = subprocess.run([sys.executable, str(ROOT / "scripts" / "validate_skill.py")], cwd=ROOT)
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts" / "validate_skill.py")],
+        cwd=ROOT,
+        check=False,
+    )
     if result.returncode:
         print("Refusing to package: validation failed.", file=sys.stderr)
         return result.returncode

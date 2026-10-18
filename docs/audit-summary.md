@@ -1,30 +1,29 @@
 # ThinkAlong Audit Summary
 
-Date: 2026-10-18  
-Version: 0.3.0
+Version: 0.4.0
 
-## Fixed in this iteration
+## Improvements in this iteration
 
-- Added a YAML-aware repository validator.
-- Required exact evaluation case sets rather than accepting a minimum count.
-- Added validator regression tests.
-- Added platform guidance and portable-instructions fallback.
-- Separated task-quality cases from trigger-accuracy cases.
-- Added bilingual README files, packaging script, and GitHub Actions CI.
-- Kept the runtime Skill package separate from repository development files.
+- Replaced a generic "understand, do, verify" loop with an explicit outcome contract, uncertainty triage, cross-turn constraint ledger, evidence gate, and repair loop.
+- Added task-specific acceptance checks and six worked examples.
+- Expanded task-quality and trigger evaluation plans to 30 cases each.
+- Added a scoring rubric and controlled baseline comparison guidance.
+- Strengthened metadata validation, exact case-set validation, local-link checks, and validator regression tests.
+- Split the runtime Skill package from repository docs, tests, and CI.
+- Improved bilingual READMEs and platform compatibility caveats.
 
-## Verification status
+## Verification
 
-Repository checks and validator tests are intended to run through the commands in README. GitHub Actions results must be checked after the workflow runs remotely. Evaluation cases are test plans, not measured model-behavior results.
+The GitHub Actions workflow runs structural validation, validator regression tests, and packaging. Check the actual workflow run before claiming a commit passed CI. Manual evaluation tables are test plans, not model-behavior results.
 
 ## Known limitations
 
-1. No live LLM benchmark has been completed.
-2. Native installation and trigger behavior have not been certified on every listed platform.
-3. ChatGPT and Claude Skills availability may depend on account or workspace configuration.
-4. Manual portable instructions do not grant tools or permissions.
-5. Some user-provided social/article links were not accessible to research tools; their contents have not been treated as reviewed sources.
+1. No controlled live LLM benchmark has yet demonstrated improvement.
+2. Native installation and activation behavior are not certified on every platform/model combination.
+3. ChatGPT and Claude Skills availability depends on account/workspace/product rollout.
+4. Portable instructions do not add tools or permissions.
+5. Skill quality still depends on host capabilities and model adherence.
 
 ## Release recommendation
 
-Treat ThinkAlong as experimental until live behavioral evaluation is recorded. Do not claim measured success-rate improvements without a reproducible baseline comparison.
+Treat ThinkAlong as experimental until reproducible behavioral evaluation is recorded. Do not claim success-rate or satisfaction improvements without a controlled baseline comparison.
