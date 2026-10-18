@@ -3,13 +3,16 @@
 ## Unreleased
 
 - Added a source-pinned research summary for six reference projects, with per-directory license boundaries and explicit design decisions.
-- Preserved the canonical Skill and runtime references without new behavior rules or dependencies.
+- Preserved the canonical identity, architecture and core mechanisms without new dependencies.
+- Narrowed implicit trigger guidance to outcome-changing ambiguity, interacting constraints and repairs; kept explicitly invoked simple tasks direct.
+- Allow a few necessary related questions together, while resolving dependent questions in order; synchronize portable instructions.
+- Remove repeated workflow rules in favor of execution checkpoints; load references only when needed and assess subjective quality against user references, audience and purpose.
 - Separated task quality, activation, unnecessary questions, constraint violations, unsupported claims, repair quality and safety measures in the retained rubric/protocol.
 - At the user's request, removed all automated test code and task/trigger/regression cases, and switched CI and contributor guidance to static review only. Historical entries below describe earlier versions, not the current tree.
 - Tightened static YAML/metadata and runtime package reference/symlink checks; clarified license inclusion for folder installation.
 - Parse Python syntax and actual CI step definitions during static validation, instead of accepting command text in comments.
 - Share the six-file package allowlist; stage and verify archives before atomic replacement, with fixed timestamps/permissions and portable ZIP paths.
-- No behavior/model evaluation or compatibility improvement is claimed. Runtime Skill version remains 0.4.0; a source push does not create a tagged release.
+- No behavior/model evaluation or compatibility improvement is claimed. Runtime instruction changes remain Unreleased, with metadata version 0.4.0 until a versioned release; use the source commit to identify the revision. A source push does not create a tagged release.
 
 ## 0.4.0 — 2026-10-18
 

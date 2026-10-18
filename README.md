@@ -10,7 +10,7 @@
 
 ThinkAlong is a portable AI collaboration skill for people who want better outcomes without learning prompt engineering. It turns vague requests into a practical **outcome contract**, asks only consequential questions, preserves constraints across multi-step work, and checks the actual deliverable.
 
-> **Status: experimental, v0.4.0.** Current work is static-only. Test code and evaluation cases have been removed; the rubric and protocol remain. Live model behavior and cross-platform installation have not been evaluated in this iteration. No measured success-rate improvement is claimed.
+> **Status: experimental, metadata v0.4.0 with Unreleased instruction changes.** Current work is static-only. Test code and evaluation cases have been removed; the rubric and protocol remain. Live model behavior and cross-platform installation have not been evaluated in this iteration. No measured success-rate improvement is claimed.
 
 ## The problem is not just the prompt
 
@@ -25,6 +25,8 @@ ThinkAlong uses five practical mechanisms:
 5. **Repair loop** — classify the mismatch, fix its cause, and re-check the affected criteria.
 
 The process is adaptive, not a mandatory checklist. Simple requests stay simple.
+
+Use ThinkAlong when ambiguity changes the outcome, constraints interact across steps or turns, or an existing result needs repair. Research, file/data work and multiple steps alone are not reasons to load it. Routine questions and bounded transformations stay direct, including after explicit invocation. Necessary related questions may be combined; subjective quality is judged against the user's references, audience and purpose. These are instruction changes, not measured behavior gains.
 
 ## Example
 

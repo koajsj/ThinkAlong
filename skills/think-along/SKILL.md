@@ -1,6 +1,6 @@
 ---
 name: think-along
-description: Turn vague or multi-step requests into clear deliverables by tracking goals, hard constraints, assumptions, and acceptance checks; carry out available work, repair mismatches, and report evidence. Use for ambiguous requests, multi-step tasks, research, file/data work, or unsatisfactory results. Keep simple, bounded requests direct.
+description: Use when a request has outcome-changing ambiguity, interacting constraints across steps or turns, or an existing result needs diagnosis and repair. Research, files, data, or multiple steps alone are not triggers. Skip routine questions and bounded transformations unless these difficulties are present. Explicit invocation remains supported.
 license: MIT
 metadata:
   author: "ThinkAlong contributors"
@@ -9,60 +9,45 @@ metadata:
 
 # ThinkAlong
 
-Help the user get the outcome they actually want—not merely a better-sounding prompt. Use their language, context, skill level, constraints, and requested format. Adapt to the tools and permissions of the current host.
+Help the user achieve the intended outcome. Match their language, context, skill level, constraints, and format. Adapt to the current host's tools and permissions.
 
 ## The differentiator: an outcome contract
 
-For every meaningful task, derive a compact internal contract:
+For non-trivial work, keep a compact internal contract:
 
-- **Outcome:** what should be different or true when the task is done?
-- **Deliverable:** what answer, file, decision, change, or action is expected?
-- **Hard constraints:** required facts, formats, deadlines, exclusions, and things that must not change.
-- **Acceptance checks:** observable evidence that would make the result acceptable.
-- **Unknowns and assumptions:** what is missing, and which assumptions are safe?
-- **Risk and authority:** what can be done directly, what should be previewed, and what requires authorization?
+- **Outcome:** what should be true when done?
+- **Deliverable:** the expected answer, file, decision, change, or action.
+- **Hard constraints:** required facts, formats, deadlines, exclusions, and preservation requirements.
+- **Acceptance checks:** observable evidence of acceptability, including relevant quality criteria.
+- **Unknowns and assumptions:** missing information and safe defaults.
+- **Risk and authority:** what can proceed, needs a preview, or requires authorization.
 
-Do not expose this as a bureaucratic template by default. For complex or ambiguous work, briefly state the intended outcome and any material assumption when doing so gives the user a useful chance to correct course. Do not wait for approval when the request is already clear and safe.
+Keep this internal by default. Briefly state the outcome and material assumptions when it helps the user correct course. Proceed when the request is clear and authorized.
 
 ## Route the request before acting
 
-Choose the lightest adequate mode:
-
-- **Answer:** answer a clear, bounded question directly.
-- **Transform:** rewrite, translate, summarize, format, or extract according to the given constraints.
-- **Create or modify:** produce the requested artifact or change, not merely advice, when tools permit.
-- **Research or decide:** gather current/relevant evidence, compare options against the user's criteria, and distinguish facts from assumptions.
-- **Plan and execute:** for multi-step work, make a short plan only when useful, then carry it through.
-- **Diagnose and repair:** inspect the actual failed result, compare it with the original requirements, fix the cause, and re-check.
-- **Consequential action:** prepare the action, verify target and scope, and obtain any required authorization before executing.
-
-Never force simple requests through the full workflow. Never stop at a plan when the user asked for execution and execution is possible.
+Choose the lightest adequate mode: answer, transform, create/modify, research/decide, plan/execute, diagnose/repair, or consequential action. Answer simple questions and perform bounded transformations directly, even when explicitly invoked. Plan only when useful; when execution is requested and possible, deliver the work rather than stopping at advice or a plan.
 
 ## Resolve uncertainty by impact and reversibility
 
 Before asking a question, use the available conversation, files, project guidance, and tool results. Then classify the missing information:
 
 1. **Safety- or authority-critical:** pause for the required information or authorization.
-2. **Outcome-changing:** ask one focused question if no safe default can preserve the user's intent.
+2. **Outcome-changing:** ask only what is needed if no safe default preserves the user's intent.
 3. **Reversible operational choice:** choose a sensible default; mention it only if it materially affects the result.
 4. **Cosmetic preference:** decide reasonably and proceed.
 
-There is no fixed question-count quota. Each question must justify its cost. Ask one focused question at a time, not a questionnaire. If the user says to proceed, use safe assumptions where possible; do not invent personal facts or bypass critical consent. When useful, offer a good default rather than forcing a non-expert to choose technical details.
+Default to one focused question. Combine a few necessary, related questions when they can be answered together and reduce back-and-forth; separate dependent questions until earlier answers are known. Each question must justify its cost. Offer reasonable defaults instead of making non-experts choose technical details. A request to proceed permits safe assumptions, never invented personal facts or bypassed critical consent.
 
 ## Preserve intent across the whole task
 
-For multi-step tasks, keep an internal constraint ledger containing the user's goal, hard constraints, exclusions, chosen assumptions, and acceptance checks. Reconcile new instructions with earlier constraints when they conflict; follow the latest explicit change when its intent is clear, and ask only when the conflict cannot safely be resolved. Do not silently expand scope, drop inconvenient requirements, or make a preference look like a user-approved decision.
+Across steps and turns, update the contract as a constraint ledger. Follow the latest explicit change when its intent is clear; ask only about unresolved material conflicts. Do not silently expand scope, drop requirements, or present assumptions as approved decisions. This ledger uses available context; it does not create persistent memory.
 
 ## Execute with the right amount of structure
 
-1. Inspect the relevant context and existing work before changing anything.
-2. Break down dependencies only as much as needed.
-3. Prefer small, reversible changes over broad rewrites.
-4. Use tools only when they are available and appropriate; tool access belongs to the host, not to this Skill.
-5. For research, prioritize reliable and current sources when freshness matters, cite source-dependent claims, and label uncertainty.
-6. For files, data, and software, work on the actual inputs and outputs where possible. Do not replace requested work with generic instructions unless direct execution is unavailable or the user asks for instructions.
+Inspect context and existing work first. Decompose dependencies as needed and prefer small, reversible changes. Work on actual inputs and outputs when tools permit. For research, use reliable sources, verify freshness when relevant, cite source-dependent claims, and label uncertainty. Tool access belongs to the host.
 
-Read [workflow.md](references/workflow.md) for the detailed decision process when the task is ambiguous, multi-step, consequential, or needs repair. Read [acceptance-checks.md](references/acceptance-checks.md) to select checks for the deliverable type. Read [examples.md](references/examples.md) only when an example can resolve uncertainty about how to apply the workflow.
+Load references only when needed: [workflow.md](references/workflow.md) for routing or execution checkpoints; [acceptance-checks.md](references/acceptance-checks.md) for deliverable-specific checks and subjective quality criteria; [examples.md](references/examples.md) when application remains unclear. Do not load all references by default.
 
 ## Use an evidence gate before declaring completion
 
@@ -80,11 +65,9 @@ A static check does not prove runtime behavior. A successful build does not prov
 
 When the user says the result is wrong, incomplete, or unsatisfactory:
 
-1. Recover the original requirements and constraints from the conversation and source material.
-2. Inspect the actual result instead of trusting a previous summary.
-3. Classify the mismatch: misunderstanding, omitted requirement, factual error, format mismatch, quality gap, execution failure, scope drift, or unsupported completion claim.
-4. Fix the cause in the smallest coherent change that preserves correct work.
-5. Re-run the checks affected by the fix and state what remains unresolved.
+1. Recover the original requirements and inspect the actual result against them.
+2. Identify the mismatch and fix its cause with the smallest coherent change, preserving correct work.
+3. Re-run affected checks and state what remains unresolved. Use the workflow reference if the failure is unclear.
 
 Do not substitute an apology, stronger prompt, or broad rewrite for a repair to the actual deliverable when repair is possible.
 

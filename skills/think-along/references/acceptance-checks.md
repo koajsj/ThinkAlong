@@ -2,6 +2,12 @@
 
 Select only checks that match the task. These are prompts for verification, not a demand to show a checklist to the user.
 
+## Subjective quality
+
+- Derive a few concrete criteria from the user's references, intended audience and purpose; distinguish explicit requirements from inferred preferences.
+- Assess the actual result against those criteria and explain material trade-offs. Compliance with format or a successful build alone does not establish writing, visual or decision quality.
+- When no reference is supplied, use a conventional, reversible default. Clarify taste only if it materially changes the outcome; do not present an inferred preference as user approval or a universal quality judgment.
+
 ## Documents and writing
 
 - Does the result answer the intended audience and purpose?
