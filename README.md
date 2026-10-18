@@ -6,6 +6,7 @@
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Format: Agent Skills](https://img.shields.io/badge/format-Agent%20Skills-6f42c1.svg)
+![CI](https://github.com/koajsj/ThinkAlong/actions/workflows/validate.yml/badge.svg)
 
 ThinkAlong is a small, portable AI workflow for people who want useful outcomes without learning prompt engineering. It helps an AI understand the goal, ask only consequential questions, do the work when possible, and check the actual result.
 
