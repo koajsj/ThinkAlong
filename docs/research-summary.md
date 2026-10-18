@@ -34,3 +34,17 @@
 4. 文件夹安装说明遗漏仓库 LICENSE。修订双语安装与发布说明；研究、评测和工具仍在运行包外。
 
 执行结果与限制见 [audit-summary.md](audit-summary.md)，方法见 [评测协议](../evals/protocol.md)。这些设计决策是调研判断，不是模型效果证据。
+
+## 本轮深化：降低误操作、无效修复和虚假完成
+
+2026-10-18 再次读取 anthropics/skills、obra/superpowers、agentskills/agentskills 默认分支 HEAD；提交仍分别为上表的 `dbd4588`、`bb92a77`、`69ef37e`。本轮补读了以下具体材料，许可证依据仍为上文对应目录条款。仅提炼机制并独立表述，没有运行其工具或复制实现。
+
+| 来源 | 可复用思想 | ThinkAlong 的具体取舍 |
+| --- | --- | --- |
+| [Anthropic skill-creator](https://github.com/anthropics/skills/blob/dbd4588f9e1033efb41dad4bef2f7947c8993d44/skills/skill-creator/SKILL.md)、[grader](https://github.com/anthropics/skills/blob/dbd4588f9e1033efb41dad4bef2f7947c8993d44/skills/skill-creator/agents/grader.md) | 关注真实成果而非表面满足；检查评分条件本身是否有区分力；保持规则简洁，避免为少数输入堆积特例。 | 在现有证据门槛中要求检查能识别实质错误，不能仅凭文件存在或自报成功；不能削弱原标准来制造通过。仅把必要决策规则加入主 Skill，详细诊断留在原 references；不采用其子智能体或评测运行流程。 |
+| [Superpowers systematic-debugging](https://github.com/obra/superpowers/blob/bb92a77741419a4ab5f06e711a283343f1ada0c3/skills/systematic-debugging/SKILL.md)、上表 verification-before-completion | 从症状定位原因，用新证据修正判断；重复失败时重新检查假设；完成声明依赖实际检查结果。 | 增补“重复尝试不产生新信息时改变调查或明确阻碍”，避免盲目叠加补丁。不照搬固定次数阈值、强制测试/审批或架构重构；检查方式仍受当前任务权限限制。证据须对应当前成果、完成状态和相关范围。 |
+| [Agent Skills 规范](https://agentskills.io/specification) | 元数据发现、主体加载与资源按需读取分层。 | 保持独立 Skill 与原三份 references；主文件只补跨任务共用的边界，不能把优化请求扩张成无关功能清单或全能专业工具。规范符合性不等于实际模型遵循或宿主安全保证。 |
+
+静态工具另依据 [GitHub Actions workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax) 核对条件跳过和 `continue-on-error` 语义。原验证器只查步骤含有命令，未检查 job 条件、失败容忍，并把多行 Shell 中出现的命令视为执行依据。本轮采用保守的本仓库约定：必要 job/步骤无附加条件、不忽略失败，必要检查为独立完整命令。不实现表达式或 Shell 解释器，不把结构验证描述为远程执行证明。
+
+只读审查、讨论不授权写入、中途追问保留主任务、宽泛优化按用户影响收敛、外部操作结果不明先查状态等改动，来自对 ThinkAlong 现有规则的静态缺口分析。它们是本项目的设计判断，尚无行为复现或模型增益测量，不将潜在风险写成已发生事故。

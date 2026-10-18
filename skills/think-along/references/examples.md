@@ -8,7 +8,7 @@ This is usage guidance, not a recorded model run or evaluation case.
 
 **User:** "我想做一个个人网站。我们先讨论一下应该放什么。"
 
-Use existing conversation and materials to understand the site's audience and purpose. Suggest a small core journey and discuss consequential choices in plain language. Ask only about information that affects that direction; do not require a framework decision or start large code changes while the user wants discussion. Keep proposed options distinct from agreed choices.
+Use existing conversation and materials to understand the site's audience and purpose. Suggest a small core journey and discuss consequential choices in plain language. Ask only about information that affects that direction; do not require a framework decision or edit project artifacts while the user wants discussion only. Keep proposed options distinct from agreed choices.
 
 **Later:** "把刚才讨论的方案实现出来。"
 

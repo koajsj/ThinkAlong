@@ -178,22 +178,29 @@ def validate(root: Path = ROOT) -> list[str]:
     if workflow_path.is_file():
         try:
             workflow = load_yaml(workflow_path.read_text(encoding="utf-8"))
-            steps = workflow["jobs"]["validate"]["steps"]
+            job = workflow["jobs"]["validate"]
+            if "if" in job or job.get("continue-on-error", False) is not False:
+                errors.append("CI validate job must be unconditional and must not allow failure")
+            steps = job["steps"]
             if not isinstance(steps, list) or any(not isinstance(step, dict) for step in steps):
                 raise ValueError("validate job requires a list of step mappings")
-            active = [step for step in steps if step.get("if") is not False]
-            actions = {step["uses"] for step in active if isinstance(step.get("uses"), str)}
+            # Conservative repository contract, not a GitHub expression/shell evaluator.
+            # Required checks use standalone commands, no conditions or tolerated failures.
+            required_steps = [
+                step for step in steps
+                if "if" not in step and step.get("continue-on-error", False) is False
+            ]
+            actions = {step["uses"] for step in required_steps if isinstance(step.get("uses"), str)}
             commands = {
-                line.strip()
-                for step in active if isinstance(step.get("run"), str)
-                for line in step["run"].splitlines()
+                step["run"].strip()
+                for step in required_steps if isinstance(step.get("run"), str)
             }
             for action in ("actions/checkout@v7", "actions/setup-python@v7"):
                 if action not in actions:
-                    errors.append(f"CI workflow is missing action step: {action}")
+                    errors.append(f"CI requires an unconditional, failure-propagating action step: {action}")
             for command in ("python scripts/validate_skill.py", "python scripts/package_skill.py"):
                 if command not in commands:
-                    errors.append(f"CI workflow is missing command step: {command}")
+                    errors.append(f"CI requires an unconditional, failure-propagating standalone command: {command}")
         except (KeyError, TypeError, ValueError, yaml.YAMLError, OSError) as exc:
             errors.append(f"invalid CI workflow: {exc}")
 

@@ -38,6 +38,8 @@ Continue the project from its current state.
 
 These are usage illustrations, not measured activation results. The first request stays in discussion. The next reuses agreed requirements and implements in the accessible workspace. Continuation starts by inspecting actual files and progress. Direct requests to add a feature, improve or repair a project should also lead to implementation; technical details with safe defaults do not require repeated confirmation. Ordinary questions, translations, local text edits and basic code explanations stay direct.
 
+Review-only requests stay read-only. Broad improvements focus on supported gaps in the existing user journey. Follow-up questions preserve the ongoing goal, while explicit stops are honored. Repairs should use new evidence rather than repeat ineffective attempts; completion claims must match the current artifact and permitted checks. An ambiguous external-action result requires checking actual state before a retry that could duplicate it.
+
 The host controls discovery/loading and tools; the model controls adherence. The description makes natural-language matching possible, and `policy.allow_implicit_invocation: true` permits it in Codex (already the host default). This does not force activation. `$think-along` remains an optional explicit fallback, not a required project-development ritual. See [official Skill guidance](https://learn.chatgpt.com/docs/build-skills).
 
 If you want discussion alongside implementation, independent authorized work can continue while consequential choices are discussed. A prompt/handoff is the main deliverable only when you request it, request another tool, or implementation needs unavailable capabilities. It should be one brief with the goal, confirmed requirements, constraints, decisions/defaults, open questions, acceptance checks and actual progress. The Skill does not transfer chats, grant tools, permanently save context, or authorize publishing/deployment.
@@ -95,7 +97,7 @@ python scripts/package_skill.py
 
 These are development tools, not Skill runtime dependencies. The commands do not execute the Skill, simulate an LLM or establish installation/behavior quality. Model evaluation remains unrun; paid API calls require separate authorization.
 
-Validation also parses Python source and active CI step definitions. Packaging uses a shared six-file allowlist, fixed ZIP timestamps/permissions and portable paths; it checks the staged archive before replacing an existing ZIP. Generated archives stay in ignored `dist/` and are not committed.
+Validation also parses Python source and CI definitions. Required CI actions/checks must be unconditional and propagate failures; required check commands must stand alone. This conservative repository check does not evaluate arbitrary GitHub expressions or shell programs, and does not prove remote execution. Packaging uses a shared six-file allowlist, fixed ZIP timestamps/permissions and portable paths; it checks the staged archive before replacing an existing ZIP. Generated archives stay in ignored `dist/` and are not committed.
 
 ## Contribute
 
