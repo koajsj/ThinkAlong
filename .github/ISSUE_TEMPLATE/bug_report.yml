@@ -1,0 +1,30 @@
+name: Bug report
+description: Report a reproducible ThinkAlong issue
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Input and context
+      description: Include the prompt, host, and model if known.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Reproduction or evidence
+    validations:
+      required: false
