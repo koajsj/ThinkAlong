@@ -4,20 +4,15 @@ from __future__ import annotations
 
 import subprocess
 import sys
+import tempfile
 import zipfile
 from pathlib import Path
 
+from validate_skill import PACKAGE_FILES
+
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "skills" / "think-along"
 DIST = ROOT / "dist"
-FILES = [
-    ("SKILL.md", SOURCE / "SKILL.md"),
-    ("LICENSE", ROOT / "LICENSE"),
-    ("agents/openai.yaml", SOURCE / "agents" / "openai.yaml"),
-    ("references/workflow.md", SOURCE / "references" / "workflow.md"),
-    ("references/acceptance-checks.md", SOURCE / "references" / "acceptance-checks.md"),
-    ("references/examples.md", SOURCE / "references" / "examples.md"),
-]
+FILES = [(name, ROOT / relative) for name, relative in PACKAGE_FILES]
 
 
 def main() -> int:
@@ -33,16 +28,31 @@ def main() -> int:
     if missing:
         print(f"Missing package files: {missing}", file=sys.stderr)
         return 1
+    if DIST.is_symlink():
+        print("Refusing to package: dist must not be a symlink.", file=sys.stderr)
+        return 1
     DIST.mkdir(exist_ok=True)
     archive = DIST / "think-along.zip"
-    with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
-        for name, path in FILES:
-            zf.write(path, Path("think-along") / name)
-    with zipfile.ZipFile(archive) as zf:
-        expected = {str(Path("think-along") / name) for name, _ in FILES}
-        if zf.testzip() is not None or set(zf.namelist()) != expected:
-            print("Package integrity or contents check failed.", file=sys.stderr)
-            return 1
+    if archive.is_symlink():
+        print("Refusing to package: archive must not be a symlink.", file=sys.stderr)
+        return 1
+    # Read a single source snapshot; publish only a fully verified archive.
+    contents = {f"think-along/{name}": path.read_bytes() for name, path in FILES}
+    with tempfile.TemporaryDirectory(prefix=".think-along-", dir=DIST) as temporary:
+        staged = Path(temporary) / "think-along.zip"
+        with zipfile.ZipFile(staged, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
+            for name, content in contents.items():
+                entry = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+                entry.create_system = 3
+                entry.external_attr = 0o100644 << 16
+                zf.writestr(entry, content, compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
+        with zipfile.ZipFile(staged) as zf:
+            if (zf.testzip() is not None or len(zf.namelist()) != len(contents)
+                    or set(zf.namelist()) != set(contents)
+                    or any(zf.read(name) != content for name, content in contents.items())):
+                print("Package integrity or contents check failed.", file=sys.stderr)
+                return 1
+        staged.replace(archive)
     print(f"Created {archive.relative_to(ROOT)} ({archive.stat().st_size} bytes)")
     return 0
 

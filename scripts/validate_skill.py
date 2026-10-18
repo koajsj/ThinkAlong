@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Validate ThinkAlong's Agent Skill, repository metadata, eval cases, and local links."""
+"""Statically validate ThinkAlong's Skill, repository metadata and local links."""
 from __future__ import annotations
 
+import ast
 import re
 import sys
 from pathlib import Path
@@ -12,23 +13,43 @@ except ImportError:
     yaml = None
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_IDS = {f"E{i:02d}" for i in range(1, 31)}
-TRIGGER_IDS = {f"T{i:02d}" for i in range(1, 31)}
 ALLOWED_FRONTMATTER = {"name", "description", "license", "compatibility", "allowed-tools", "metadata"}
+PACKAGE_FILES = (
+    ("SKILL.md", "skills/think-along/SKILL.md"),
+    ("LICENSE", "LICENSE"),
+    ("agents/openai.yaml", "skills/think-along/agents/openai.yaml"),
+    ("references/workflow.md", "skills/think-along/references/workflow.md"),
+    ("references/acceptance-checks.md", "skills/think-along/references/acceptance-checks.md"),
+    ("references/examples.md", "skills/think-along/references/examples.md"),
+)
+
+
+def load_yaml(text: str):
+    """Use safe YAML parsing without silently accepting overwritten keys."""
+    class UniqueLoader(yaml.SafeLoader):
+        pass
+
+    def mapping(loader, node):
+        result = {}
+        for key_node, value_node in node.value:
+            key = loader.construct_object(key_node)
+            if key in result:
+                raise ValueError(f"duplicate YAML key: {key}")
+            result[key] = loader.construct_object(value_node)
+        return result
+
+    UniqueLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, mapping)
+    return yaml.load(text, Loader=UniqueLoader)
 
 
 def frontmatter(text: str):
     match = re.match(r"\A---\r?\n(.*?)\r?\n---(?:\r?\n|$)", text, re.S)
     if not match:
         raise ValueError("missing YAML frontmatter")
-    data = yaml.safe_load(match.group(1))
+    data = load_yaml(match.group(1))
     if not isinstance(data, dict):
         raise ValueError("frontmatter must be a YAML mapping")
     return data, text[match.end():]
-
-
-def case_ids(text: str, prefix: str) -> list[str]:
-    return re.findall(rf"(?m)^\|\s*({prefix}\d{{2}})\s*\|", text)
 
 
 def validate(root: Path = ROOT) -> list[str]:
@@ -37,20 +58,32 @@ def validate(root: Path = ROOT) -> list[str]:
     root = root.resolve()
     errors: list[str] = []
     required = [
-        "README.md", "README.zh-CN.md", "LICENSE", "CHANGELOG.md", "CONTRIBUTING.md",
+        "AGENTS.md", "README.md", "README.zh-CN.md", "LICENSE", "CHANGELOG.md", "CONTRIBUTING.md",
         "SECURITY.md", "skills/think-along/SKILL.md", "skills/think-along/agents/openai.yaml",
         "skills/think-along/references/workflow.md",
         "skills/think-along/references/acceptance-checks.md",
         "skills/think-along/references/examples.md",
         "adapters/portable-instructions.md", "docs/platform-compatibility.md",
         "docs/audit-summary.md", "docs/release-checklist.md", "docs/github-metadata.md",
-        "evals/task-cases.md", "evals/trigger-cases.md", "evals/scoring-rubric.md",
-        "requirements-dev.txt", "scripts/package_skill.py", "tests/test_validate_skill.py",
+        "docs/research-summary.md", "evals/protocol.md", "evals/scoring-rubric.md",
+        "requirements-dev.txt", "scripts/package_skill.py",
         ".github/workflows/validate.yml",
     ]
     for item in required:
         if not (root / item).is_file():
             errors.append(f"missing required file: {item}")
+
+    source = root / "skills/think-along"
+    package_sources = {root / relative for _, relative in PACKAGE_FILES}
+    for path in sorted(package_sources):
+        if any(part.is_symlink() for part in (path, *path.parents) if part != root and root in part.parents):
+            errors.append(f"package input must not be a symlink: {path.relative_to(root)}")
+
+    for script in sorted((root / "scripts").glob("*.py")):
+        try:
+            ast.parse(script.read_text(encoding="utf-8"), filename=str(script.relative_to(root)))
+        except (SyntaxError, UnicodeError, OSError) as exc:
+            errors.append(f"invalid Python source {script.relative_to(root)}: {exc}")
 
     skill_path = root / "skills/think-along/SKILL.md"
     if skill_path.is_file():
@@ -69,13 +102,17 @@ def validate(root: Path = ROOT) -> list[str]:
                 errors.append("skill description must be 1-1024 characters and contain no angle brackets")
             if skill.get("license") != "MIT":
                 errors.append("skill license must be MIT")
-            if "compatibility" in skill and not isinstance(skill["compatibility"], str):
-                errors.append("compatibility must be a string when present")
-            if "allowed-tools" in skill and not isinstance(skill["allowed-tools"], (str, list)):
-                errors.append("allowed-tools must be a string or list when present")
+            if "compatibility" in skill and (not isinstance(skill["compatibility"], str)
+                                             or not skill["compatibility"].strip()
+                                             or not 1 <= len(skill["compatibility"]) <= 500):
+                errors.append("compatibility must be a string of 1-500 characters when present")
+            if "allowed-tools" in skill and not isinstance(skill["allowed-tools"], str):
+                errors.append("allowed-tools must be a space-separated string when present")
             if "metadata" in skill and not isinstance(skill["metadata"], dict):
                 errors.append("metadata must be a YAML mapping when present")
             elif isinstance(skill.get("metadata"), dict):
+                if any(not isinstance(k, str) or not isinstance(v, str) for k, v in skill["metadata"].items()):
+                    errors.append("metadata keys and values must be strings")
                 version = skill["metadata"].get("version")
                 if version != "0.4.0":
                     errors.append("skill metadata version must match 0.4.0")
@@ -92,7 +129,7 @@ def validate(root: Path = ROOT) -> list[str]:
     metadata_path = root / "skills/think-along/agents/openai.yaml"
     if metadata_path.is_file():
         try:
-            metadata = yaml.safe_load(metadata_path.read_text(encoding="utf-8"))
+            metadata = load_yaml(metadata_path.read_text(encoding="utf-8"))
             interface = metadata.get("interface") if isinstance(metadata, dict) else None
             if not isinstance(interface, dict):
                 errors.append("agents/openai.yaml requires interface mapping")
@@ -107,20 +144,6 @@ def validate(root: Path = ROOT) -> list[str]:
                     errors.append("default_prompt must explicitly invoke $think-along")
         except Exception as exc:
             errors.append(f"invalid agents/openai.yaml: {exc}")
-
-    for relative, prefix, expected in [
-        ("evals/task-cases.md", "E", TASK_IDS),
-        ("evals/trigger-cases.md", "T", TRIGGER_IDS),
-    ]:
-        path = root / relative
-        if not path.is_file():
-            continue
-        try:
-            ids = case_ids(path.read_text(encoding="utf-8"), prefix)
-            if len(ids) != len(set(ids)) or set(ids) != expected or len(ids) != len(expected):
-                errors.append(f"{relative} must contain exactly {len(expected)} unique cases")
-        except Exception as exc:
-            errors.append(f"cannot validate {relative}: {exc}")
 
     # Validate local Markdown links and reject links escaping the repository.
     link_re = re.compile(r"!?(?:\[[^\]]*\])\(([^)]+)\)")
@@ -144,21 +167,32 @@ def validate(root: Path = ROOT) -> list[str]:
                 continue
             if not resolved.exists():
                 errors.append(f"broken local link: {md.relative_to(root)} -> {target}")
+            if source in md.parents:
+                if resolved not in package_sources:
+                    errors.append(f"link escapes Skill package or targets an unbundled file: {md.relative_to(root)} -> {target}")
 
     workflow_path = root / ".github/workflows/validate.yml"
     if workflow_path.is_file():
-        workflow_text = workflow_path.read_text(encoding="utf-8")
-        if "actions/checkout@v7" not in workflow_text:
-            errors.append("CI should use actions/checkout@v7 or a reviewed newer version")
-        if "actions/setup-python@v7" not in workflow_text:
-            errors.append("CI should use actions/setup-python@v7 or a reviewed newer version")
-        for command in (
-            "python scripts/validate_skill.py",
-            "python -m unittest discover -s tests -v",
-            "python scripts/package_skill.py",
-        ):
-            if command not in workflow_text:
-                errors.append(f"CI workflow is missing command: {command}")
+        try:
+            workflow = load_yaml(workflow_path.read_text(encoding="utf-8"))
+            steps = workflow["jobs"]["validate"]["steps"]
+            if not isinstance(steps, list) or any(not isinstance(step, dict) for step in steps):
+                raise ValueError("validate job requires a list of step mappings")
+            active = [step for step in steps if step.get("if") is not False]
+            actions = {step["uses"] for step in active if isinstance(step.get("uses"), str)}
+            commands = {
+                line.strip()
+                for step in active if isinstance(step.get("run"), str)
+                for line in step["run"].splitlines()
+            }
+            for action in ("actions/checkout@v7", "actions/setup-python@v7"):
+                if action not in actions:
+                    errors.append(f"CI workflow is missing action step: {action}")
+            for command in ("python scripts/validate_skill.py", "python scripts/package_skill.py"):
+                if command not in commands:
+                    errors.append(f"CI workflow is missing command step: {command}")
+        except (KeyError, TypeError, ValueError, yaml.YAMLError, OSError) as exc:
+            errors.append(f"invalid CI workflow: {exc}")
 
     return errors
 
@@ -173,7 +207,7 @@ def main() -> int:
     for error in errors:
         print(f"ERROR: {error}", file=sys.stderr)
     if not errors:
-        print("PASS: required files, Skill frontmatter, metadata, exact eval sets, local links, and CI commands.")
+        print("PASS: required files, Python syntax, Skill frontmatter, metadata, package references, local links, and CI steps.")
     return 1 if errors else 0
 
 

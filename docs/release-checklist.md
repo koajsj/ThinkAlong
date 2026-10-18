@@ -5,17 +5,21 @@
 - [ ] English and Simplified Chinese READMEs agree on features, installation scope, and limitations.
 - [ ] License, changelog, contribution/security guidance, issue templates, and CI are present.
 - [ ] No secrets, private data, local machine paths, or unrelated generated files are included.
-- [ ] Run validator, unit tests, and package script.
+- [ ] Run static validator and inspect source syntax, metadata, references and package structure.
+- [ ] Keep test code/cases and unit/runtime/behavior/model runs absent under the current static-only policy.
 - [ ] Verify ZIP integrity and exact package contents.
+- [ ] Confirm the ZIP matches the six shared package entries and source bytes; keep `dist/` and temporary outputs out of Git.
 - [ ] Inspect the actual remote Actions run before describing CI as passing.
 
-## Behavior evidence
+For a source-only push, inspect repository identity, current remote head, changed paths and deletions; retain existing history and avoid force-push. Verify the remote commit/tree after pushing. A source push does not authorize tags, Release creation, repository-setting changes or asset uploads.
 
-- [ ] Record model/provider, host/version, Skill version, input, and observed result.
-- [ ] Run task cases with and without ThinkAlong under comparable conditions.
-- [ ] Run trigger cases separately; record false positives and false negatives.
-- [ ] Test each platform before describing it as tested.
-- [ ] Publish only measured results and disclose limitations.
+## Behavior evidence — not run under the current policy
+
+The [retained protocol](../evals/protocol.md) and [rubric](../evals/scoring-rubric.md) describe future evidence requirements. They do not authorize evaluation. Do not execute them or incur model charges unless separately authorized.
+
+- [ ] Label behavior, activation, model benchmarks and host installation as unrun in this iteration.
+- [ ] Do not claim improvement or tested compatibility from static checks.
+- [ ] If the policy changes later, record actual controlled results and host evidence before changing these claims.
 
 ## GitHub discoverability
 
@@ -27,4 +31,5 @@ Promote one real, reproducible before/after example. Do not invent user counts, 
 
 - [ ] Update CHANGELOG and tag the release.
 - [ ] Attach the generated Skill ZIP and portable instructions.
+- [ ] Ensure folder installations and the ZIP carry the repository MIT LICENSE; keep research, methodology and tooling outside the runtime package.
 - [ ] Confirm README does not imply that a release or remote CI run exists before it does.

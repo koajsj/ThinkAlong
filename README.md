@@ -10,7 +10,7 @@
 
 ThinkAlong is a portable AI collaboration skill for people who want better outcomes without learning prompt engineering. It turns vague requests into a practical **outcome contract**, asks only consequential questions, preserves constraints across multi-step work, and checks the actual deliverable.
 
-> **Status: experimental, v0.4.0.** The repository has structural validation and manual evaluation cases. Live model behavior and cross-platform installation are not yet comprehensively benchmarked. No measured success-rate improvement is claimed.
+> **Status: experimental, v0.4.0.** Current work is static-only. Test code and evaluation cases have been removed; the rubric and protocol remain. Live model behavior and cross-platform installation have not been evaluated in this iteration. No measured success-rate improvement is claimed.
 
 ## The problem is not just the prompt
 
@@ -40,7 +40,7 @@ See more [worked examples](skills/think-along/references/examples.md).
 
 ### Codex
 
-Copy `skills/think-along/` to:
+Copy `skills/think-along/` to a location below, and copy the repository root `LICENSE` into the installed `think-along/` directory. The generated ZIP already includes the license. Inspect the destination before upgrading and preserve local edits.
 
 - Personal: `~/.agents/skills/think-along/`
 - Project: `.agents/skills/think-along/`
@@ -49,7 +49,7 @@ Invoke explicitly with `$think-along`. See [Codex Skills](https://developers.ope
 
 ### Claude Code and Claude web
 
-Claude Code can use the skill folder under `~/.claude/skills/think-along/` or a project-level `.claude/skills/think-along/`. Claude web upload is available only where custom Skills are enabled. See [Claude Skills](https://support.claude.com/en/articles/12512198-how-to-create-custom-skills).
+Claude Code can use the skill folder together with `LICENSE` under `~/.claude/skills/think-along/` or a project-level `.claude/skills/think-along/`. Claude web upload is available only where custom Skills are enabled. See [Claude Skills](https://support.claude.com/en/articles/12512198-how-to-create-custom-skills).
 
 ### ChatGPT web
 
@@ -61,24 +61,26 @@ A model and a host are different things. DeepSeek through a compatible host can 
 
 See the [platform compatibility guide](docs/platform-compatibility.md). The open [Agent Skills specification](https://agentskills.io/specification) does not mean every AI product supports native Skills.
 
-## Evaluate it
+## Static review and evaluation methodology
 
-The repository separates task quality, trigger accuracy, and scoring:
+The current policy permits static review only. Test code and task/trigger/regression case catalogues have been removed. Do not run unit, runtime, behavioral or model tests. Retained methodology documents require separate authorization before future execution:
 
-- [Task-quality cases](evals/task-cases.md)
-- [Trigger-accuracy cases](evals/trigger-cases.md)
-- [Scoring rubric and baseline method](evals/scoring-rubric.md)
+- [Seven independent measures and scoring rubric](evals/scoring-rubric.md)
+- [Static review and evaluation protocol](evals/protocol.md)
+- [Research sources and design decisions](docs/research-summary.md)
+- [Audit results and limitations](docs/audit-summary.md)
 
-Run structural validation, validator regression tests, and packaging locally:
+Check metadata, file references and package structure locally:
 
 ```bash
 python -m pip install -r requirements-dev.txt
 python scripts/validate_skill.py
-python -m unittest discover -s tests -v
 python scripts/package_skill.py
 ```
 
-These checks validate repository files and package structure; they do not simulate an LLM. To assess actual benefit, run the same cases with and without ThinkAlong using comparable model, host, tools, and context. Record failures as well as successes.
+Use the same Python environment with `requirements-dev.txt` installed. These are development tools, not Skill runtime dependencies. The commands do not execute the Skill, simulate an LLM or establish installation/behavior quality. Model evaluation remains unrun; paid API calls require separate authorization.
+
+Validation also parses Python source and the active CI step definitions. Packaging uses a shared six-file allowlist, fixed ZIP timestamps/permissions and `/` paths; it checks the staged archive before atomically replacing an existing ZIP. Generated archives stay in ignored `dist/` and are not committed. Byte-for-byte reproducibility across different Python/compression-library versions is not guaranteed.
 
 ## Design principles
 
@@ -93,7 +95,7 @@ These checks validate repository files and package structure; they do not simula
 
 ## Contribute
 
-Useful contributions include reproducible false activations, missed triggers, constraint drops, unnecessary questions, weak verification, and platform installation issues. Include the input, expected behavior, observed behavior, host/model, and a regression case. Keep private data out of public issues. See [CONTRIBUTING.md](CONTRIBUTING.md).
+Useful contributions include reproducible false activations, missed triggers, constraint drops, unnecessary questions, weak verification, and platform installation issues. Include the input, expected behavior, observed behavior, host/model, and static evidence. Keep private data out of public issues. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 If this solves a real problem for you, star the repository and share a concrete case—successes and failures both help improve it.
 

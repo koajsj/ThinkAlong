@@ -19,6 +19,6 @@ body:
   - type: textarea
     id: regression
     attributes:
-      label: Evaluation case or regression test
+      label: Static evidence and acceptance criteria
     validations:
       required: false

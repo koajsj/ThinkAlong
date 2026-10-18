@@ -5,10 +5,10 @@ Describe the concrete problem this change addresses.
 Summarize the smallest coherent change.
 
 ## Evidence
-- [ ] Added or updated a task/trigger evaluation case.
-- [ ] Ran repository validation.
-- [ ] Ran validator unit tests.
-- [ ] Built and inspected the Skill ZIP.
+- [ ] Reviewed the change against the outcome and scope constraints.
+- [ ] Ran static repository validation.
+- [ ] Inspected source syntax, metadata, local links and Skill ZIP structure.
+- [ ] No test code/cases or behavioral/model test runs were added under the static-only policy.
 - [ ] No unsupported performance or platform-compatibility claims were added.
 
 ## Limitations

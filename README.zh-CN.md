@@ -10,7 +10,7 @@
 
 ThinkAlong 是一套可移植的 AI 协作 Skill，帮助普通人不必学习复杂的提示词技巧，也能更可靠地获得结果。它把模糊需求转化为可执行的**结果约定**，只追问真正重要的信息，在多轮任务中保留约束，并检查实际交付成果。
 
-> **项目状态：实验性原型，v0.4.0。** 仓库包含结构验证和人工评测案例，但尚未完成全面的真实模型行为评测与跨平台安装验收。我们不宣称任务成功率已经获得实测提升。
+> **项目状态：实验性原型，v0.4.0。** 当前仅做静态审查，已删除测试代码与评测案例，保留评分标准和评测协议。真实模型行为评测与跨平台安装验收未运行。我们不宣称任务成功率已经获得实测提升。
 
 ## 问题不只是提示词
 
@@ -40,7 +40,7 @@ ThinkAlong 应当先复用用户提供的事实；只有岗位方向会实质改
 
 ### Codex
 
-将 `skills/think-along/` 复制到：
+将 `skills/think-along/` 复制到以下位置，并将仓库根目录的 `LICENSE` 复制到安装后的 `think-along/` 目录。生成的 ZIP 已包含许可证；升级前先检查目标目录，保留本地修改。
 
 - 个人目录：`~/.agents/skills/think-along/`
 - 项目目录：`.agents/skills/think-along/`
@@ -49,7 +49,7 @@ ThinkAlong 应当先复用用户提供的事实；只有岗位方向会实质改
 
 ### Claude Code 与 Claude 网页端
 
-Claude Code 可将技能目录放在 `~/.claude/skills/think-along/` 或项目的 `.claude/skills/think-along/`。Claude 网页端只有在账号开放自定义 Skills 时才能上传。参阅 [Claude Skills 文档](https://support.claude.com/en/articles/12512198-how-to-create-custom-skills)。
+Claude Code 可按上述方式连同 `LICENSE` 安装技能目录到 `~/.claude/skills/think-along/` 或项目的 `.claude/skills/think-along/`。Claude 网页端只有在账号开放自定义 Skills 时才能上传。参阅 [Claude Skills 文档](https://support.claude.com/en/articles/12512198-how-to-create-custom-skills)。
 
 ### ChatGPT 网页端
 
@@ -61,24 +61,26 @@ Claude Code 可将技能目录放在 `~/.claude/skills/think-along/` 或项目�
 
 详见[平台兼容指南](docs/platform-compatibility.md)。遵循开放的 [Agent Skills 规范](https://agentskills.io/specification)，不代表所有 AI 产品都原生支持 Skill。
 
-## 评测
+## 静态审查与评测规范
 
-项目将任务质量、触发准确性和评分标准分开维护：
+当前仅做静态审查，不保留测试代码或任务/触发/回归案例，不运行单元、运行时、行为或模型测试。保留以下方法文档供日后另行授权时参考：
 
-- [任务质量案例](evals/task-cases.md)
-- [触发准确性案例](evals/trigger-cases.md)
-- [评分标准与基线对照方法](evals/scoring-rubric.md)
+- [七项独立指标与评分标准](evals/scoring-rubric.md)
+- [静态审查与评测协议](evals/protocol.md)
+- [六个参考项目的研究依据与设计取舍](docs/research-summary.md)
+- [本次审查结果及限制](docs/audit-summary.md)
 
-本地运行结构验证、验证器回归测试和打包：
+本地检查元数据、文件引用和打包结构：
 
 ```bash
 python -m pip install -r requirements-dev.txt
 python scripts/validate_skill.py
-python -m unittest discover -s tests -v
 python scripts/package_skill.py
 ```
 
-这些检查只验证仓库文件与安装包结构，不会模拟大模型。要评估实际效果，应在相同模型、宿主、工具和上下文条件下，对比启用与未启用 ThinkAlong 的结果，并记录失败案例。
+这只需要开发工具依赖，不增加 Skill 运行时依赖。应使用已安装 `requirements-dev.txt` 的同一 Python 环境。这些命令不会执行 Skill、模拟大模型或证明安装及行为效果。真实模型评测仍未运行，也不自动授权付费 API。
+
+验证器同时解析 Python 源码和 CI 的有效步骤定义。打包共用六文件清单，固定 ZIP 时间戳和权限，统一使用 `/` 路径；临时包校验完成后才原子替换旧 ZIP。产物保存在已忽略的 `dist/`，不提交到仓库。不同 Python 或压缩库版本之间不保证产物字节完全一致。
 
 ## 设计原则
 
@@ -93,7 +95,7 @@ python scripts/package_skill.py
 
 ## 参与贡献
 
-欢迎提交可复现的误触发、漏触发、约束遗漏、无效追问、验证不足和平台安装问题。请提供输入、预期行为、实际行为、宿主/模型和回归案例。不要在公开 Issue 中发布私人数据。详见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+欢迎提交可复现的误触发、漏触发、约束遗漏、无效追问、验证不足和平台安装问题。请提供输入、预期行为、实际行为、宿主/模型和静态证据。不要在公开 Issue 中发布私人数据。详见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
 如果 ThinkAlong 确实解决了你的问题，欢迎给仓库点 Star，并分享具体案例。成功与失败都能帮助改进。
 

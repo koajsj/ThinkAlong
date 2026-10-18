@@ -20,4 +20,6 @@ ThinkAlong uses the open Agent Skills convention, with a portable-instructions f
 - [DeepSeek + Codex](https://api-docs.deepseek.com/quick_start/agent_integrations/codex/)
 - [DeepSeek Deep Code](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)
 
-Mark a platform as tested only after installing and exercising the Skill there.
+Folder installations must include the repository root `LICENSE` inside the installed `think-along/` folder; the generated ZIP includes it already. Keep the ZIP's single `think-along/` root and relative references intact. Inspect existing installation directories before upgrading to preserve local changes.
+
+No platform installation or activation was exercised in this iteration. Current policy is static review only. Official documentation links describe intended installation, not evidence that it succeeded on a particular account or host. A future tested-platform claim requires separate authorization and actual installation/activation evidence.
