@@ -2,10 +2,13 @@
 
 ## Unreleased
 
-- Added a first-class project-to-delivery path for coding workspaces: inspect the repository, define a compact outcome contract, choose sensible defaults, implement in the current workspace, and verify.
-- Explicitly avoid prompt-only handoffs when the current coding host can perform the requested work; provide a concise handoff bundle only when requested or when workspace/tools are unavailable.
-- Added a project kickoff example and project-specific acceptance checks; synchronized portable instructions and bilingual README positioning.
-- No model-behavior or productivity improvement is claimed; current checks are static only.
+- Recognize natural-language project discussion, creation, feature work, improvement, repair and continuation; keep routine questions and small transformations direct without requiring a fixed invocation phrase.
+- Replace overlapping project instructions with discussion/execution/handoff selection; preserve discussion-only intent and reuse confirmed decisions when implementation is requested.
+- Inspect real progress before resuming, distinguish proposals from decisions, and progress authorized independent work alongside discussion without introducing state files or persistent-memory claims.
+- Make Codex implicit-invocation permission explicit (already the host default), update UI prompt/metadata, and statically validate that policy; no activation-rate improvement is claimed.
+- Update the existing project usage walkthrough, mode-specific acceptance guidance, portable instructions and bilingual quick-start; document one consolidated handoff only when requested or required.
+- Refresh platform guidance from official documentation, restore LICENSE inclusion for folder installation, and distinguish loading, adherence, tool permissions and actual execution evidence.
+- Preserve the existing outcome contract, constraint ledger, evidence gate, root-cause repair and usable implementation path. Test code/cases remain absent; validation and CI stay static-only. No model-behavior, trigger-rate or productivity improvement is measured.
 
 ## 0.4.0 — 2026-10-18
 

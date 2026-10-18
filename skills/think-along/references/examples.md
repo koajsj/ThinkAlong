@@ -2,22 +2,25 @@
 
 These examples show how to apply the workflow without making every task feel procedural.
 
-## 1. Start a project directly in Codex — no prompt relay
+## 1. Discuss a website, then build and continue it
 
-**User:** "我想做一个个人网站，帮我直接做出来。我不懂技术，你来决定合理的实现方案。"
+This is usage guidance, not a recorded model run or evaluation case.
 
-**Better behavior in a coding workspace:**
-- Recognize this as a project-to-delivery request even if the first sentence is broad.
-- Inspect the current workspace, project instructions, existing files, and available checks before choosing a stack.
-- If this is an existing project, preserve its architecture and working behavior. If it is empty, choose a simple maintainable default suitable for the stated goal.
-- Internally define the essential user journey, must-have content, exclusions, and acceptance checks. Mention only assumptions that materially affect the result.
-- Ask only if a missing decision would substantially change the site or introduce a meaningful risk. Do not make the user choose a framework, package manager, or hosting architecture without a real need.
-- Implement a coherent usable slice in the current workspace, run relevant checks, inspect the diff, and report actual results.
-- Do not output a prompt for the user to copy into another AI unless they asked for a prompt.
+**User:** "我想做一个个人网站。我们先讨论一下应该放什么。"
 
-**Fallback in a chat-only host:** If no project workspace or code execution is available, say so. Provide one concise handoff bundle with the goal, decisions/defaults, constraints, acceptance checks, and one consolidated implementation prompt. Clearly state that no code was executed.
+Use existing conversation and materials to understand the site's audience and purpose. Suggest a small core journey and discuss consequential choices in plain language. Ask only about information that affects that direction; do not require a framework decision or start large code changes while the user wants discussion. Keep proposed options distinct from agreed choices.
 
-**Failure to avoid:** producing a long project plan and stopping, creating only a scaffold, or forcing the user to act as a message bridge between ChatGPT and Codex.
+**Later:** "把刚才讨论的方案实现出来。"
+
+Reuse the agreed content, decisions and exclusions. Inspect the actual workspace and local instructions, preserve existing architecture, choose maintainable defaults for remaining low-risk details, and implement a usable path. Perform permitted checks and report evidence and unfinished work. Do not ask the user to restate the plan or paste a prompt into another AI.
+
+**Later:** "继续完成之前的项目。"
+
+Inspect the files, current Git changes and accessible progress records before choosing the next step. Keep settled decisions and update only new requirements. If a key decision is missing from available context, ask for that gap without pretending it was permanently saved.
+
+**When implementation tools are unavailable:** Continue discussion if that is what the user wants. If implementation is requested, explain the missing capability, finish useful available work and provide one concise handoff brief with confirmed requirements, constraints, decisions/defaults, open questions, acceptance checks and actual progress. Do not claim that code ran or send the brief to another service without authorization.
+
+**Failure to avoid:** forcing implementation during exploration, returning only another prompt when implementation is available, or calling a scaffold a completed product.
 
 ## 2. Resume for a beginner
 

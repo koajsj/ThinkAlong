@@ -1,6 +1,6 @@
 # ThinkAlong
 
-**Think clearly together. Build directly. Verify what actually works.**
+**Discuss naturally. Build when ready. Verify actual results.**
 
 [简体中文](README.zh-CN.md) · [Platform guide](docs/platform-compatibility.md) · [Examples](skills/think-along/references/examples.md) · [Contributing](CONTRIBUTING.md)
 
@@ -8,9 +8,9 @@
 ![Agent Skills](https://img.shields.io/badge/format-Agent%20Skills-6f42c1.svg)
 ![CI](https://github.com/koajsj/ThinkAlong/actions/workflows/validate.yml/badge.svg)
 
-ThinkAlong is a portable AI collaboration skill for people who want better outcomes without learning prompt engineering. It is especially designed to remove the **ChatGPT → prompt → Codex relay**: when used in a coding workspace, it helps turn a rough project idea into a practical brief, implementation, and verified deliverable in the same workflow.
+ThinkAlong is a portable AI collaboration skill for people who want better outcomes without learning prompt engineering. It is especially designed to remove the **ChatGPT → prompt → Codex relay**: keep discussion, confirmed decisions and implementation connected; when the user wants execution and workspace tools are available, work on the actual project.
 
-> **Status: experimental, v0.4.0 with unreleased instruction changes.** Static validation and packaging are available. Live model behavior and cross-platform installation are not comprehensively benchmarked; no measured success-rate improvement is claimed.
+> **Status: experimental, v0.4.0 with unreleased instruction changes.** Static validation and packaging are available. Natural-language activation, model behavior and cross-platform installation have not been exercised in this review; no measured success-rate improvement is claimed.
 
 ## The problem: you shouldn't have to be the message bridge
 
@@ -18,7 +18,7 @@ A common workflow is: discuss a project in ChatGPT, ask it to write a detailed p
 
 ThinkAlong aims to reduce that handoff:
 
-1. **Understand the outcome** — identify the goal, deliverable, hard constraints, assumptions, and acceptance checks.
+1. **Explore when wanted** — discuss the problem, audience and options; keep the goal, constraints, decisions and acceptance checks aligned.
 2. **Choose sensible defaults** — ask only about decisions that materially change the result; do not make non-experts choose technical details unnecessarily.
 3. **Work in the current workspace** — inspect the existing repository, plan just enough, and implement when tools permit.
 4. **Keep constraints alive** — preserve exclusions and decisions across steps and turns.
@@ -26,17 +26,21 @@ ThinkAlong aims to reduce that handoff:
 
 This is an adaptive workflow, not a mandatory checklist. Simple requests stay simple.
 
-## Try it in Codex
+## From discussion to implementation
 
-Install the Skill, open the project workspace, and start with your idea in natural language:
+Install the Skill in a supported host and open your project workspace. Use ordinary language, without memorizing a command:
 
 ```text
-$think-along I want to build a useful personal website, but I don't know the technical details. Inspect this workspace, choose sensible defaults, ask only if a decision would materially change the result, implement a working version here, and verify it. Don't just give me a prompt for another AI.
+I want a personal website. Let's discuss what it should do first.
+Implement the plan we just discussed.
+Continue the project from its current state.
 ```
 
-ThinkAlong should inspect the existing project before choosing a stack. If the workspace already contains code, it should preserve working behavior and follow project instructions. If the workspace is empty, it should choose a maintainable default and start building. It should not publish or deploy externally without the required authorization.
+These are usage illustrations, not measured activation results. The first request stays in discussion. The next reuses agreed requirements and implements in the accessible workspace. Continuation starts by inspecting actual files and progress. Direct requests to add a feature, improve or repair a project should also lead to implementation; technical details with safe defaults do not require repeated confirmation. Ordinary questions, translations, local text edits and basic code explanations stay direct.
 
-**Important:** the Skill cannot create tools or workspace access the host does not provide. In a chat-only interface, it should instead provide one concise handoff brief and clearly state that implementation was not executed.
+The host controls discovery/loading and tools; the model controls adherence. The description makes natural-language matching possible, and `policy.allow_implicit_invocation: true` permits it in Codex (already the host default). This does not force activation. `$think-along` remains an optional explicit fallback, not a required project-development ritual. See [official Skill guidance](https://learn.chatgpt.com/docs/build-skills).
+
+If you want discussion alongside implementation, independent authorized work can continue while consequential choices are discussed. A prompt/handoff is the main deliverable only when you request it, request another tool, or implementation needs unavailable capabilities. It should be one brief with the goal, confirmed requirements, constraints, decisions/defaults, open questions, acceptance checks and actual progress. The Skill does not transfer chats, grant tools, permanently save context, or authorize publishing/deployment.
 
 ## What makes it different?
 
@@ -51,20 +55,20 @@ ThinkAlong should inspect the existing project before choosing a stack. If the w
 
 ### Codex
 
-Copy `skills/think-along/` to:
+Copy `skills/think-along/` to a location below and include the root `LICENSE` in the installed `think-along/` folder. The generated ZIP includes it. Inspect existing destinations before upgrading and preserve local edits:
 
 - Personal: `~/.agents/skills/think-along/`
 - Project: `.agents/skills/think-along/`
 
-Invoke explicitly with `$think-along`. See [Codex Skills](https://developers.openai.com/codex/skills).
+Describe the project naturally; explicit `$think-along` remains available if needed. Loading still depends on host discovery, configuration and matching. See [Codex Skills](https://learn.chatgpt.com/docs/build-skills).
 
 ### Claude Code and Claude web
 
-Claude Code can use the skill folder under `~/.claude/skills/think-along/` or a project-level `.claude/skills/think-along/`. Claude web upload is available only where custom Skills are enabled. See [Claude Skills](https://support.claude.com/en/articles/12512198-how-to-create-custom-skills).
+Install the folder with `LICENSE` for Claude Code under `~/.claude/skills/think-along/` or a project-level `.claude/skills/think-along/`. Claude Code can select from descriptions or use `/think-along`. Claude web ZIP upload requires custom Skills and code execution to be enabled; it does not grant access to your local repository. See [Claude Code Skills](https://code.claude.com/docs/en/skills) and [Claude custom Skills](https://support.claude.com/en/articles/12512198-how-to-create-custom-skills).
 
 ### ChatGPT web
 
-If Skills are enabled for your account/workspace, upload the generated ZIP from the Skills interface. Availability varies by plan, workspace settings, and rollout. See [ChatGPT Skills](https://help.openai.com/en/articles/20001066-skills-in-chatgpt).
+Use the Skill installation/upload controls actually enabled for your account or workspace; if custom Skills are unavailable, use the portable instructions. Files, execution and repository access depend on the current tools and permissions. Continue discussion without tools; offer an implementation handoff only when requested or needed. See [ChatGPT Skills](https://learn.chatgpt.com/docs/skills-and-plugins) and [ChatGPT capabilities](https://learn.chatgpt.com/docs/use-chatgpt).
 
 ### DeepSeek and other models
 

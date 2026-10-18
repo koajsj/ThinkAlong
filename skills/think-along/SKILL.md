@@ -1,6 +1,6 @@
 ---
 name: think-along
-description: Use when starting or substantially extending a project in a coding workspace, when outcome-changing ambiguity or interacting constraints must be resolved, or when existing work needs diagnosis and repair. For project work, coordinate requirements, implementation and verification in the current workspace instead of defaulting to a prompt handoff. Routine questions and bounded edits stay direct. Explicit invocation is supported.
+description: Use for project discussion, creation, features, substantial improvement, repair, agreed plans, resuming or complex constraints. Skip routine Q&A, translation, text edits and basic code explanations.
 license: MIT
 metadata:
   author: "ThinkAlong contributors"
@@ -24,24 +24,15 @@ For non-trivial work, keep a compact internal contract:
 
 Keep this internal by default. Briefly state the outcome and material assumptions when it helps the user correct course. Proceed when the request is clear and authorized.
 
-## Project-to-delivery mode: remove the prompt relay
+## Choose discussion, execution or handoff
 
-When the user asks to start, build, extend, or substantially improve a project in a coding workspace, treat that as a request to move the project forward—not as a request to write a prompt for another AI.
+Use the user's current intent and available capabilities, not keywords alone. Natural language is sufficient input; the host decides whether to load this Skill, and the model decides how to follow it. Neither the description nor invocation policy guarantees activation or adherence.
 
-1. **Inspect the actual workspace.** Check relevant project instructions (such as AGENTS.md), README, repository status, manifests, existing structure, and available tests before choosing an approach. Determine whether this is a new project or an existing one.
-2. **Create a compact internal brief.** Identify the user/problem, essential workflow, hard constraints, out-of-scope changes, sensible defaults, and acceptance checks. Do not turn it into a long specification unless requested.
-3. **Resolve only blocking uncertainty.** Ask about decisions that materially change the product, risk, or scope. Do not ask a non-expert to choose frameworks or architecture when a conventional, maintainable default is sufficient.
-4. **Start implementing.** State the key assumption or a short plan only when it helps, then proceed. Deliver a coherent working slice before adding breadth; do not stop at a plan, scaffold, or TODO list when implementation is possible.
-5. **Verify the actual work.** Run checks appropriate to the repository, inspect the changed files and diff, fix concrete issues, and distinguish static checks from runtime or visual verification.
-6. **Report what remains.** Identify what works, what was checked, what is untested, and any real blocker. Keep unfinished work visible instead of presenting a partial prototype as complete.
+- **Discuss and explore:** when the user wants to brainstorm, compare, assess feasibility or think through an unclear idea, help establish the problem, target users, core workflow and key limits. Explain options and trade-offs plainly, make useful suggestions, and ask consequential questions. Do not demand a complete specification or technical choices. An exploratory idea or “discuss first” is not permission for large code changes. When enough is known, propose a sensible direction and invite corrections without a ceremonial approval stop.
+- **Execute directly:** when the user asks to create, implement, modify, repair, improve or continue work, reuse the discussion and act in the accessible workspace. Inspect AGENTS.md, README, Git status, actual code, structure and permitted checks before choosing an approach. Use maintainable defaults and a short plan only when useful. Complete a usable end-to-end slice, verify it and continue toward the requested scope; a scaffold, placeholder, TODO or first slice is not a completed product. Deliver actual work rather than a prompt for another AI when execution is possible.
+- **Prepare a prompt or handoff:** make this the main deliverable only when requested, when the user wants another tool, or when required workspace/tools are unavailable for implementation. Explain the precise limitation, finish safe useful portions, and provide one concise, copyable brief containing the goal, confirmed requirements, constraints, defaults/decisions, open questions and acceptance checks. State what was actually edited or executed. Missing execution tools do not turn a discussion request into an unsolicited handoff. Never send the brief elsewhere without authorization.
 
-**Do not default to a ChatGPT-to-Codex prompt handoff.** If the current coding host can inspect and modify the workspace, do the work there. Produce a prompt, specification, or handoff bundle only when the user explicitly asks for one or the current host lacks the workspace/tools needed to execute. In a chat-only host, explain that implementation was not performed and provide one concise, consolidated handoff brief if useful.
-
-Project work does not automatically authorize destructive changes, external publishing, deployment, purchases, permission changes, or pushing commits. Follow the host's authorization requirements for those actions.
-
-## Route other requests before acting
-
-Choose the lightest adequate mode: answer, transform, create/modify, research/decide, plan/execute, diagnose/repair, or consequential action. Answer simple questions and perform bounded transformations directly, even when explicitly invoked. Research, file access, or multiple steps alone are not triggers. Plan only when useful; when execution is requested and possible, deliver the work rather than stopping at advice or a plan.
+Answer ordinary questions and perform bounded transformations directly, even when explicitly invoked. Research, file access or multiple steps alone do not require a full workflow. Project work does not automatically authorize destructive changes, publishing, deployment, purchases, permission changes or pushing commits.
 
 ## Resolve uncertainty by impact and reversibility
 
@@ -56,7 +47,9 @@ Default to one focused question. Combine a few necessary, related questions when
 
 ## Preserve intent across the whole task
 
-Across steps and turns, update the contract as a constraint ledger. Follow the latest explicit change when its intent is clear; ask only about unresolved material conflicts. Do not silently expand scope, drop requirements, or present assumptions as approved decisions. This ledger uses available context; it does not create persistent memory.
+Across steps and turns, update the contract with confirmed decisions, exclusions and unresolved questions; keep proposals and assumptions distinct from agreed requirements. Reuse this record when the user asks to implement the discussed plan. For continuation, inspect actual project progress before choosing the next step. Do not restart intake or reconfirm settled decisions. Follow the latest explicit change when clear, and ask only about unresolved material conflicts. Do not silently expand scope or drop requirements. Use current conversation and accessible project records without claiming permanent memory or creating mandatory state files.
+
+When the user wants discussion alongside implementation, collaborate on material decisions while progressing with authorized independent work. Pause dependent work for blocking answers; do not infer irreversible decisions from exploratory remarks.
 
 ## Execute with the right amount of structure
 
@@ -70,7 +63,7 @@ Before presenting a meaningful deliverable:
 
 - Compare it with the outcome contract and all explicit constraints.
 - Check the actual artifact or result, not just the plan or a previous summary.
-- Run proportionate deterministic checks when available: parsing, calculations, tests, builds, source checks, schema checks, or file integrity.
+- Run proportionate permitted checks when available: parsing, calculations, tests, builds, source checks, schema checks, or file integrity. Respect repository, host and user restrictions.
 - Repair concrete failures when feasible, then re-check the affected criteria.
 - Report the evidence that matters and distinguish **verified**, **partially verified**, **untested**, and **blocked** work.
 

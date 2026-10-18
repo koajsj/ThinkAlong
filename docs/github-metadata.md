@@ -4,11 +4,11 @@ Use these values in the repository's **About** settings. Updating README files d
 
 ## Description
 
-A portable AI Skill that turns rough project ideas into implemented, verified work—without the ChatGPT-to-Codex prompt relay.
+A portable AI collaboration Skill: discuss project ideas, implement when ready, preserve decisions, and verify actual results with less prompt relay.
 
 ## Suggested Topics
 
-`agent-skills`, `ai-agents`, `codex`, `claude`, `chatgpt`, `deepseek`, `prompt-engineering`, `llm`, `productivity`, `open-source`.
+`agent-skills`, `ai-agents`, `codex`, `claude`, `chatgpt`, `deepseek`, `llm`, `productivity`, `open-source`.
 
 ## Homepage
 
@@ -17,7 +17,7 @@ Leave empty unless a stable project website or documentation site is published. 
 ## Discoverability principles
 
 - Lead with the concrete user problem: reduce the prompt relay and keep project planning, implementation, and verification connected.
-- Keep a copy-ready Codex quick-start and one worked example near the top of README.
+- Lead with natural-language discussion and implementation; keep explicit invocation optional and disclose host-controlled loading.
 - Publish reproducible benchmark results only after running authorized, controlled evaluations.
 - Prefer a few relevant Topics over keyword stuffing.
 - Ask users for specific failure cases and contributions; do not buy stars or fabricate social proof.

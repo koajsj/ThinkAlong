@@ -2,14 +2,21 @@
 
 Select only checks that match the task. These are prompts for verification, not a demand to show a checklist to the user.
 
-## Project kickoff and implementation
+## Discussion, implementation and handoff
+
+- Does the output fit the user's current intent: useful exploration, actual implementation or a requested/necessary handoff? A discussion request must not trigger large code changes.
+- Were confirmed decisions and constraints reused, with only material unresolved questions raised? For continuation, was actual progress inspected rather than inferred from an old summary?
+- Does discussion clarify the problem, audience, core workflow or a material trade-off without forcing a questionnaire or technical specification?
+- If handoff is necessary or requested, is there one copyable brief with the goal, confirmed requirements, constraints, defaults/decisions, open questions and acceptance checks, plus an accurate execution status?
+
+## Project implementation
 
 - Does the implementation solve the stated user problem and support the essential end-to-end journey, rather than merely presenting a scaffold?
 - Were existing repository instructions, architecture, and working behavior inspected and preserved?
 - Are must-have behaviors and hard constraints reflected in the actual implementation?
 - Are user-facing controls connected to real behavior, or clearly marked as unavailable rather than implied to work?
 - Are empty, loading, failure, and success states handled where relevant?
-- Were relevant build, type, test, lint, or static checks actually run, and are their results accurately reported?
+- Were permitted build, type, test, lint, or static checks actually run, and are their results accurately reported?
 - Are unfinished features, mock data, placeholders, and untested runtime paths disclosed?
 - Was the change set inspected for accidental scope expansion, secrets, generated artifacts, and unrelated edits?
 - If the host cannot execute code, is the deliverable explicitly described as a handoff/specification rather than a completed implementation?

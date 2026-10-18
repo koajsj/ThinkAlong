@@ -1,6 +1,6 @@
 # ThinkAlong
 
-**想法直接落地，少做提示词搬运工。**
+**自然讨论，准备好就实施，核验实际成果。**
 
 [English](README.md) · [平台兼容指南](docs/platform-compatibility.md) · [使用示例](skills/think-along/references/examples.md) · [参与贡献](CONTRIBUTING.md)
 
@@ -8,9 +8,9 @@
 ![Agent Skills](https://img.shields.io/badge/format-Agent%20Skills-6f42c1.svg)
 ![CI 状态](https://github.com/koajsj/ThinkAlong/actions/workflows/validate.yml/badge.svg)
 
-ThinkAlong 是一套可移植的 AI 协作 Skill，帮助普通人不必学习复杂的提示词技巧，也能更可靠地获得结果。它尤其希望解决 **ChatGPT 规划 → 生成提示词 → 复制给 Codex → 再解释一遍** 的重复流程：在具备项目访问能力的编程环境中，让 AI 直接从项目想法走向实现和验收。
+ThinkAlong 是一套可移植的 AI 协作 Skill，帮助普通人不必学习复杂的提示词技巧，也能更可靠地获得结果。它尤其希望解决 **ChatGPT 规划 → 生成提示词 → 复制给 Codex → 再解释一遍** 的重复流程：让讨论、已确认决定和实施保持衔接；当用户要求执行且工具可用时，直接处理实际项目。
 
-> **项目状态：实验性原型，元数据版本 v0.4.0，包含尚未正式发布的指令改动。** 当前可进行静态验证和打包，但尚未全面测试真实模型行为或各平台安装效果，不宣称成功率已经获得实测提升。
+> **项目状态：实验性原型，元数据版本 v0.4.0，包含尚未正式发布的指令改动。** 本次仅做静态验证与打包；自然语言加载、真实模型行为和跨平台安装均未运行验收，不宣称成功率已经获得实测提升。
 
 ## 你不应该一直充当两个 AI 之间的信息搬运工
 
@@ -18,7 +18,7 @@ ThinkAlong 是一套可移植的 AI 协作 Skill，帮助普通人不必学习�
 
 ThinkAlong 希望减少这次中转：
 
-1. **理解目标**：识别真正想实现的结果、交付物、硬性约束、假设和验收标准。
+1. **按需讨论**：帮助明确问题、受众和方案，持续对齐目标、约束、决定和验收标准。
 2. **采用合理默认值**：只询问会实质改变结果的选择，不让零基础用户承担不必要的技术决策。
 3. **在当前工作区直接做**：检查现有项目，进行必要规划，并在工具允许时实际实现。
 4. **持续保留约束**：避免执行到一半遗忘要求或擅自扩大范围。
@@ -26,17 +26,21 @@ ThinkAlong 希望减少这次中转：
 
 这是一套自适应流程，不是强制清单。简单任务仍然直接处理。
 
-## 在 Codex 中直接开始项目
+## 从讨论自然进入实施
 
-安装 Skill 后，打开项目工作区，直接用自然语言描述你的想法：
+在支持 Skill 的宿主安装后，打开项目工作区，直接使用普通语言，无需记住专门口令：
 
 ```text
-$think-along 我想做一个实用的个人网站，但我不懂技术。请检查当前工作区，选择合理的默认方案；只有会实质影响结果的选择才询问我。在当前工作区直接实现一个可用版本并验证，不要只给我一段交给另一个 AI 的提示词。
+我想做一个个人网站。我们先讨论一下应该放什么。
+把刚才讨论的方案实现出来。
+继续完成之前的项目。
 ```
 
-ThinkAlong 应先检查现有项目，再决定技术方案。如果目录已有代码，就保留有效功能并遵循项目指引；如果是空目录，则采用易维护的默认方案并开始实现。发布、部署等外部操作仍须遵循必要的授权流程。
+这些是使用说明，不是已测得的触发结果。第一句保持讨论；下一句复用已确认需求，在可访问的工作区实施；继续项目时先检查真实文件和进度。直接要求增加功能、完善或修复项目时，也应推进实际工作，不因可采用默认值的技术细节重复确认。普通问答、翻译、局部文本修改和基础代码解释仍然直接处理。
 
-**注意：** Skill 无法凭空赋予宿主不存在的工具或项目访问权限。如果当前只是无法执行代码的聊天界面，它应改为提供一份简洁完整的交接说明，并明确说明尚未实际执行代码。
+宿主决定发现、加载和工具权限，模型决定如何遵循指令。description 为自然语言匹配提供依据，`policy.allow_implicit_invocation: true` 明确允许 Codex 隐式调用（这本来就是宿主默认值），但不会强制加载。`$think-along` 保留为可选的显式调用方式，不是开发项目的必要步骤。参阅[官方 Skill 文档](https://learn.chatgpt.com/docs/build-skills)。
+
+如果要求边讨论边实现，可推进已授权且不依赖待定选择的工作，同时讨论关键决策。仅在用户要求提示词、要求交给其他工具，或实施缺少必要能力时，才以交接为主要交付物；交接是一份包含目标、已确认需求、约束、决定/默认值、待确认事项、验收标准和实际进度的精简说明。Skill 不会自动转移聊天、赋予工具、永久保存上下文或授权发布部署。
 
 ## 它与普通提示词优化有什么区别？
 
@@ -51,20 +55,20 @@ ThinkAlong 应先检查现有项目，再决定技术方案。如果目录已有
 
 ### Codex
 
-将 `skills/think-along/` 复制到：
+将 `skills/think-along/` 复制到以下位置，并把仓库根目录 `LICENSE` 放入安装后的 `think-along/`。生成的 ZIP 已包含许可证；升级前先检查目标目录并保留本地修改：
 
 - 个人目录：`~/.agents/skills/think-along/`
 - 项目目录：`.agents/skills/think-along/`
 
-然后使用 `$think-along` 显式调用。参阅 [Codex Skills 文档](https://developers.openai.com/codex/skills)。
+直接描述项目即可；需要时可用 `$think-along` 显式调用。加载仍取决于宿主发现、配置和匹配。参阅 [Codex Skills 文档](https://learn.chatgpt.com/docs/build-skills)。
 
 ### Claude Code 与 Claude 网页端
 
-Claude Code 可将技能目录安装到 `~/.claude/skills/think-along/` 或项目的 `.claude/skills/think-along/`。Claude 网页端只有在账号开放自定义 Skills 时才能上传。参阅 [Claude Skills 文档](https://support.claude.com/en/articles/12512198-how-to-create-custom-skills)。
+Claude Code 可将含 `LICENSE` 的技能目录安装到 `~/.claude/skills/think-along/` 或项目的 `.claude/skills/think-along/`。Claude Code 可按描述选择 Skill，也可用 `/think-along` 显式调用。Claude 网页端上传 ZIP 需要启用自定义 Skills 和代码执行能力，并不因此获得本地仓库权限。参阅 [Claude Code Skills](https://code.claude.com/docs/en/skills) 和 [Claude 自定义 Skills](https://support.claude.com/en/articles/12512198-how-to-create-custom-skills)。
 
 ### ChatGPT 网页端
 
-如果账号或工作区已经启用 Skills，可从 Skills 界面上传生成的 ZIP。可用性受套餐、工作区设置和产品开放范围影响。参阅 [ChatGPT Skills 文档](https://help.openai.com/en/articles/20001066-skills-in-chatgpt)。
+使用账号或工作区实际开放的 Skill 安装/上传入口；自定义 Skills 不可用时使用通用指令。文件、执行和仓库访问能力取决于当前工具与权限。无工具时仍可继续讨论，只有要求实施且确有必要时才交接。参阅 [ChatGPT Skills](https://learn.chatgpt.com/docs/skills-and-plugins) 和 [ChatGPT 能力说明](https://learn.chatgpt.com/docs/use-chatgpt)。
 
 ### DeepSeek 与其他模型
 

@@ -1,4 +1,6 @@
 interface:
   display_name: "ThinkAlong"
-  short_description: "Turn fuzzy requests into useful, checked results"
-  default_prompt: "Use $think-along to define the outcome, do the useful work, and check the result without unnecessary back-and-forth."
+  short_description: "Discuss ideas, build projects, verify results"
+  default_prompt: "Use $think-along to follow my current intent: discuss the idea or carry out the agreed work, reuse our context, and verify actual results."
+policy:
+  allow_implicit_invocation: true

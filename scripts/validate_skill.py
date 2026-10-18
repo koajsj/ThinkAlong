@@ -142,6 +142,9 @@ def validate(root: Path = ROOT) -> list[str]:
                     errors.append("short_description must be 25-64 characters")
                 if not isinstance(prompt, str) or "$think-along" not in prompt:
                     errors.append("default_prompt must explicitly invoke $think-along")
+            policy = metadata.get("policy") if isinstance(metadata, dict) else None
+            if not isinstance(policy, dict) or policy.get("allow_implicit_invocation") is not True:
+                errors.append("agents/openai.yaml requires policy.allow_implicit_invocation: true")
         except Exception as exc:
             errors.append(f"invalid agents/openai.yaml: {exc}")
 
@@ -207,7 +210,7 @@ def main() -> int:
     for error in errors:
         print(f"ERROR: {error}", file=sys.stderr)
     if not errors:
-        print("PASS: required files, Python syntax, Skill frontmatter, metadata, package references, local links, and CI steps.")
+        print("PASS: required files, Python syntax, Skill frontmatter, metadata/invocation policy, package references, local links, and CI steps.")
     return 1 if errors else 0
 
 
