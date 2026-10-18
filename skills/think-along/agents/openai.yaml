@@ -1,0 +1,4 @@
+interface:
+  display_name: "ThinkAlong"
+  short_description: "Get useful, verifiable AI results with less back-and-forth"
+  default_prompt: "Use $think-along to clarify my goal, do the useful work, and verify the result without unnecessary questions."
