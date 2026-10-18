@@ -2,6 +2,18 @@
 
 Select only checks that match the task. These are prompts for verification, not a demand to show a checklist to the user.
 
+## Project kickoff and implementation
+
+- Does the implementation solve the stated user problem and support the essential end-to-end journey, rather than merely presenting a scaffold?
+- Were existing repository instructions, architecture, and working behavior inspected and preserved?
+- Are must-have behaviors and hard constraints reflected in the actual implementation?
+- Are user-facing controls connected to real behavior, or clearly marked as unavailable rather than implied to work?
+- Are empty, loading, failure, and success states handled where relevant?
+- Were relevant build, type, test, lint, or static checks actually run, and are their results accurately reported?
+- Are unfinished features, mock data, placeholders, and untested runtime paths disclosed?
+- Was the change set inspected for accidental scope expansion, secrets, generated artifacts, and unrelated edits?
+- If the host cannot execute code, is the deliverable explicitly described as a handoff/specification rather than a completed implementation?
+
 ## Subjective quality
 
 - Derive a few concrete criteria from the user's references, intended audience and purpose; distinguish explicit requirements from inferred preferences.

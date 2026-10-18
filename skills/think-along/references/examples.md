@@ -2,12 +2,29 @@
 
 These examples show how to apply the workflow without making every task feel procedural.
 
-## 1. Resume for a beginner
+## 1. Start a project directly in Codex — no prompt relay
+
+**User:** "我想做一个个人网站，帮我直接做出来。我不懂技术，你来决定合理的实现方案。"
+
+**Better behavior in a coding workspace:**
+- Recognize this as a project-to-delivery request even if the first sentence is broad.
+- Inspect the current workspace, project instructions, existing files, and available checks before choosing a stack.
+- If this is an existing project, preserve its architecture and working behavior. If it is empty, choose a simple maintainable default suitable for the stated goal.
+- Internally define the essential user journey, must-have content, exclusions, and acceptance checks. Mention only assumptions that materially affect the result.
+- Ask only if a missing decision would substantially change the site or introduce a meaningful risk. Do not make the user choose a framework, package manager, or hosting architecture without a real need.
+- Implement a coherent usable slice in the current workspace, run relevant checks, inspect the diff, and report actual results.
+- Do not output a prompt for the user to copy into another AI unless they asked for a prompt.
+
+**Fallback in a chat-only host:** If no project workspace or code execution is available, say so. Provide one concise handoff bundle with the goal, decisions/defaults, constraints, acceptance checks, and one consolidated implementation prompt. Clearly state that no code was executed.
+
+**Failure to avoid:** producing a long project plan and stopping, creating only a scaffold, or forcing the user to act as a message bridge between ChatGPT and Codex.
+
+## 2. Resume for a beginner
 
 **User:** "I need a resume for an internship, but I don't know how to write one."
 
 **Better behavior:**
-- Reuse any supplied experience, coursework, projects, and preferences.
+- Reuse supplied experience, coursework, projects, and preferences.
 - If the target role would substantially change the resume and is unknown, ask one question: "What kind of internship are you applying for?"
 - If the user wants you to decide, use a conventional entry-level layout and mark missing facts as placeholders.
 - When file tools are available, produce the requested file rather than only giving advice.
@@ -15,7 +32,7 @@ These examples show how to apply the workflow without making every task feel pro
 
 **Failure to avoid:** inventing achievements, asking about every cosmetic choice, or claiming the resume is tailored without knowing the role.
 
-## 2. Organize files without deleting anything
+## 3. Organize files without deleting anything
 
 **User:** "Please organize my Downloads folder by project. Don't delete anything."
 
@@ -27,7 +44,7 @@ These examples show how to apply the workflow without making every task feel pro
 
 **Failure to avoid:** treating this instruction as permission to clean up or delete "unneeded" files.
 
-## 3. Improve a document against a supplied standard
+## 4. Improve a document against a supplied standard
 
 **User:** "This report doesn't follow the attached requirements. Fix it."
 
@@ -39,7 +56,7 @@ These examples show how to apply the workflow without making every task feel pro
 
 **Failure to avoid:** rewriting from scratch, relying on memory of the standard, or claiming formatting was checked without inspecting the output file.
 
-## 4. Research a current decision
+## 5. Research a current decision
 
 **User:** "Compare these services and tell me which is best for my needs."
 
@@ -50,18 +67,6 @@ These examples show how to apply the workflow without making every task feel pro
 - Give a recommendation tied to the user's needs, not an ungrounded universal ranking.
 
 **Failure to avoid:** a long feature dump without a decision or a confident recommendation based on stale facts.
-
-## 5. A vague idea for a website
-
-**User:** "I want a personal website, but I don't know anything about coding."
-
-**Better behavior:**
-- Do not force the user to choose frameworks, databases, hosting providers, or architecture.
-- Establish the website's purpose and essential content; ask only if the missing purpose materially changes the design.
-- Choose a sensible, maintainable default and state it briefly.
-- If coding tools and a workspace are available, implement and verify the site; otherwise provide a concrete starter artifact and explain what cannot be executed.
-
-**Failure to avoid:** dumping technical decisions on the user or returning only a prompt when the user asked for a website.
 
 ## 6. The user says the result is wrong
 

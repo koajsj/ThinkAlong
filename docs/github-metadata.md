@@ -4,7 +4,7 @@ Use these values in the repository's **About** settings. Updating README files d
 
 ## Description
 
-A portable AI collaboration skill: clarify intent, preserve constraints, do useful work, and verify results with less back-and-forth.
+A portable AI Skill that turns rough project ideas into implemented, verified work—without the ChatGPT-to-Codex prompt relay.
 
 ## Suggested Topics
 
@@ -16,8 +16,8 @@ Leave empty unless a stable project website or documentation site is published. 
 
 ## Discoverability principles
 
-- Lead with the concrete user problem, not broad claims such as "works with every AI".
-- Keep a real quick-start and a worked example near the top of README.
-- Publish reproducible benchmark results only after running controlled evaluations.
+- Lead with the concrete user problem: reduce the prompt relay and keep project planning, implementation, and verification connected.
+- Keep a copy-ready Codex quick-start and one worked example near the top of README.
+- Publish reproducible benchmark results only after running authorized, controlled evaluations.
 - Prefer a few relevant Topics over keyword stuffing.
 - Ask users for specific failure cases and contributions; do not buy stars or fabricate social proof.

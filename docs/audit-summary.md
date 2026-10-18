@@ -1,33 +1,27 @@
 # ThinkAlong Audit Summary
 
-Audit date: 2026-10-18. Skill metadata version: 0.4.0; instruction, documentation and tooling changes are Unreleased. Identify the exact revision by source commit rather than metadata version alone. Current policy: static review only, with test code and cases deleted by user instruction. The rubric and protocol remain as methodology, not executed evaluations.
+Audit date: 2026-10-18. Skill metadata version: 0.4.0; the project-to-delivery changes are Unreleased. Identify the exact revision by source commit rather than metadata version alone. Current policy: static review only; do not run behavioral or model tests unless the user changes that policy.
+
+## User problem addressed
+
+The maintainer's concrete pain point is a repeated relay: plan a project in ChatGPT, ask ChatGPT to write a prompt, copy that prompt into Codex, then re-explain details when implementation drifts. ThinkAlong should remove that relay when it is loaded in a coding workspace with repository access.
 
 ## Findings and changes
 
-- The existing Skill already contains the outcome contract, uncertainty triage, constraint ledger, evidence gate, repair loop and trust boundaries. Preserve these core mechanisms, canonical identity and architecture.
-- A subsequent authorized usability revision narrows implicit selection to outcome-changing ambiguity, interacting constraints and repair needs. Routine questions and bounded transformations stay direct, even on explicit invocation. Necessary related questions may be combined, while dependent questions remain ordered. Replace duplicated workflow rules with routing and execution checkpoints; load references only as needed. Add subjective quality criteria grounded in user references, audience and purpose, and synchronize portable instructions and bilingual guidance. These are static design decisions; no model adherence or improvement has been measured.
-- Research six default-branch source snapshots, READMEs, relevant implementation/specification and licenses. Record pinned links, applicable mechanisms and rejected complexity in [research-summary.md](research-summary.md). No third-party implementation or large text extracts are incorporated.
-- The validator accepted duplicate YAML keys, non-string metadata values, invalid optional field shapes/lengths, references outside the runtime package and symlinked package inputs. Tighten these static checks with the existing PyYAML dependency.
-- Independent quality measures, activation evidence, question counts, hard failures and repair quality were insufficiently specified. Preserve the historical five scores and add separate diagnostics in the [rubric](../evals/scoring-rubric.md); document evidence layers and future authorization requirements in the [protocol](../evals/protocol.md).
-- Remove the former automated test file and task/trigger catalogues, plus temporary regression cases added during this work. Remove their validator requirements and CI/documentation entrypoints. Record the future static-only policy in project `AGENTS.md`. Do not run further tests under the latest instruction.
-- Folder installation omitted the root LICENSE. Clarify bilingual installation, platform and release guidance; share a single six-file runtime package allowlist between validation and packaging.
-- CI validation previously searched raw YAML text, allowing commented command/action names to satisfy checks. Parse the actual step mappings instead, and statically parse Python source on every validation run.
-- Packaging directly overwrote an existing ZIP and inherited source timestamps/permissions. Stage and inspect the archive before atomic replacement, reject symlinked output paths, fix ZIP metadata and use portable `/` member names. Compare archive bytes with the captured source contents.
+- Add a first-class project-to-delivery path: inspect the actual workspace and project instructions, build a compact internal outcome contract, use reasonable technical defaults, ask only about material blockers, implement in the current workspace, and verify the result.
+- Explicitly prevent prompt-only responses for project requests when the current coding host can execute. A handoff bundle is the fallback only when the user asks for it or the host lacks workspace/tools; it must disclose that code was not executed.
+- Add project-specific acceptance criteria for working user journeys, preserved repository behavior, checks, placeholders and incomplete features.
+- Add a concrete project kickoff example and make this value proposition clear in both READMEs.
+- Keep the workflow adaptive: no forced architecture questionnaire, no long plan in place of work, no automatic deployment or publishing authorization.
+- Retain existing outcome contract, uncertainty triage, cross-turn constraint ledger, evidence gate, repair loop and trust boundaries.
+- Do not add runtime dependencies, test cases or test code. The repository's AGENTS.md requires static review only; no behavior/model evaluation is run.
 
 ## Verification and limits
 
-The provided directory has no `.git`, so it has no independently verifiable local branch or history. A separate clone of `koajsj/ThinkAlong` was inspected for publication: default branch `main`, baseline commit `1e86a1428498d63ba93cdca874de6b21be1b1cc9`. Its tracked contents exactly match the original pre-audit snapshot. Reconcile local changes in that clone while preserving upstream history; do not initialize replacement history in the exported source directory.
+Only inspect the current source and use static validation/package checks under the repository policy. A static CI pass does not establish that a model will follow the new project behavior, that every host activates the Skill, or that actual project quality improves. Real model evaluation remains unrun.
 
-The subsequent usability revision starts from published commit `b2610586f77cc86461096fbc532d021ba70fe773`. Before editing, all 28 tracked source files matched the retained clean clone, and the remote `main` was fetched. Save a separate pre-edit snapshot for local diff review. Local static validation and packaging both exited 0; validation reported 0 errors, and the ZIP contained the six allowed runtime files. These results establish source/package checks only.
-
-An earlier iteration ran unit tests before the user changed the policy. All test code and case catalogues have since been deleted. Those historical results do not provide coverage of the current tree. This iteration runs static checks only, using the existing PyYAML development dependency; no new dependency is introduced.
-
-Checks are limited to `python scripts/validate_skill.py` (including AST/YAML parsing), local-file/reference/diff review and `python scripts/package_skill.py` for static archive contents/integrity. CI retains only dependency setup, static validation and packaging. The baseline commit's [Actions run](https://github.com/koajsj/ThinkAlong/actions/runs/39095255092) was inspected and succeeded; it precedes the current static-only changes and cannot prove this revision passes. Inspect the run matching the pushed commit before making that claim. Local Python is 3.14; CI specifies 3.12.
-
-No manual behavioral evaluation, controlled model benchmark, paid API call, execution of the Skill in a model host, cross-platform installation/activation or tagged release is performed. Static results cannot establish model improvement or compatibility certification. The independent `skills-ref` tool was inspected as a source but not installed or run; the local validator is not an official certification. Native product availability still depends on account and host.
-
-Record command outputs and exit codes with each review. The first tooling revision normalized ZIP metadata without changing runtime contents; the subsequent usability revision changes packaged instructions. Inspect exact archive members and source bytes for the current revision. A limited pattern scan is not a complete secret audit. No automated test coverage is claimed under the current policy.
+The Skill cannot create workspace/file/shell tools a host does not provide. Codex use depends on the Skill being installed and the current project workspace being accessible. In chat-only hosts, the fallback is a concise implementation handoff rather than completed code.
 
 ## Release recommendation
 
-No immediate tagged release is necessary. The user authorized pushing reviewed source changes to the existing GitHub repository. Keep metadata version 0.4.0 and current changes under Unreleased; do not create a tag, Release, asset upload or settings change. A future versioned release must distinguish these instruction changes from the original 0.4.0 and must not claim behavior gains without separately authorized evidence.
+Keep this change under Unreleased and retain metadata version 0.4.0 until a versioned release is intentionally prepared. Do not claim measured productivity gains. The current work targets the identified workflow pain point; the next meaningful evidence would be a real, authorized project task completed in Codex and reviewed against explicit acceptance checks.

@@ -1,6 +1,6 @@
 ---
 name: think-along
-description: Use when a request has outcome-changing ambiguity, interacting constraints across steps or turns, or an existing result needs diagnosis and repair. Research, files, data, or multiple steps alone are not triggers. Skip routine questions and bounded transformations unless these difficulties are present. Explicit invocation remains supported.
+description: Use when starting or substantially extending a project in a coding workspace, when outcome-changing ambiguity or interacting constraints must be resolved, or when existing work needs diagnosis and repair. For project work, coordinate requirements, implementation and verification in the current workspace instead of defaulting to a prompt handoff. Routine questions and bounded edits stay direct. Explicit invocation is supported.
 license: MIT
 metadata:
   author: "ThinkAlong contributors"
@@ -24,9 +24,24 @@ For non-trivial work, keep a compact internal contract:
 
 Keep this internal by default. Briefly state the outcome and material assumptions when it helps the user correct course. Proceed when the request is clear and authorized.
 
-## Route the request before acting
+## Project-to-delivery mode: remove the prompt relay
 
-Choose the lightest adequate mode: answer, transform, create/modify, research/decide, plan/execute, diagnose/repair, or consequential action. Answer simple questions and perform bounded transformations directly, even when explicitly invoked. Plan only when useful; when execution is requested and possible, deliver the work rather than stopping at advice or a plan.
+When the user asks to start, build, extend, or substantially improve a project in a coding workspace, treat that as a request to move the project forward—not as a request to write a prompt for another AI.
+
+1. **Inspect the actual workspace.** Check relevant project instructions (such as AGENTS.md), README, repository status, manifests, existing structure, and available tests before choosing an approach. Determine whether this is a new project or an existing one.
+2. **Create a compact internal brief.** Identify the user/problem, essential workflow, hard constraints, out-of-scope changes, sensible defaults, and acceptance checks. Do not turn it into a long specification unless requested.
+3. **Resolve only blocking uncertainty.** Ask about decisions that materially change the product, risk, or scope. Do not ask a non-expert to choose frameworks or architecture when a conventional, maintainable default is sufficient.
+4. **Start implementing.** State the key assumption or a short plan only when it helps, then proceed. Deliver a coherent working slice before adding breadth; do not stop at a plan, scaffold, or TODO list when implementation is possible.
+5. **Verify the actual work.** Run checks appropriate to the repository, inspect the changed files and diff, fix concrete issues, and distinguish static checks from runtime or visual verification.
+6. **Report what remains.** Identify what works, what was checked, what is untested, and any real blocker. Keep unfinished work visible instead of presenting a partial prototype as complete.
+
+**Do not default to a ChatGPT-to-Codex prompt handoff.** If the current coding host can inspect and modify the workspace, do the work there. Produce a prompt, specification, or handoff bundle only when the user explicitly asks for one or the current host lacks the workspace/tools needed to execute. In a chat-only host, explain that implementation was not performed and provide one concise, consolidated handoff brief if useful.
+
+Project work does not automatically authorize destructive changes, external publishing, deployment, purchases, permission changes, or pushing commits. Follow the host's authorization requirements for those actions.
+
+## Route other requests before acting
+
+Choose the lightest adequate mode: answer, transform, create/modify, research/decide, plan/execute, diagnose/repair, or consequential action. Answer simple questions and perform bounded transformations directly, even when explicitly invoked. Research, file access, or multiple steps alone are not triggers. Plan only when useful; when execution is requested and possible, deliver the work rather than stopping at advice or a plan.
 
 ## Resolve uncertainty by impact and reversibility
 
